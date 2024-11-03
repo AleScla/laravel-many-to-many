@@ -41,17 +41,17 @@
              rows="3">{{old('description')}}</textarea>
         </div>
         <div class="mb-3">
-                <p>
-                    Tecnologie:
-                </p>
-                @foreach ($technologies as $technology)
+            <p>
+                Tecnologie:
+            </p>
+            @foreach ($technologies as $technology)
                 <span class="form-check form-check-inline">
                     <label class="form-check-label" for="tech-{{$technology->id}}">
                         {{$technology->name}}
                     </label>
                     <input class="form-check-input" type="checkbox" name="technologies[]" value="{{$technology->id}}" id="tech-{{$technology->id}}">
                 </span>
-                @endforeach
+            @endforeach
 
         </div>
         <div class="mb-3">

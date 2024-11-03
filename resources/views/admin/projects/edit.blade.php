@@ -44,16 +44,21 @@
              rows="3">{{$project->description}}</textarea>
         </div>
         <div class="mb-3">
-            <label for="languages" class="form-label">Linguaggi *</label>
-            <input type="text"
-            name="languages"
-            class="form-control"
-            id="languages"
-            required
-            minlength="3"
-            maxlength="64"
-            value="{{$project->languages}}"
-            placeholder="Inserisci i linguaggi utilizzati">
+            <p>
+                Tecnologie:
+            </p>
+            @foreach ($technologies as $technology)
+                <span class="form-check form-check-inline">
+                    <label class="form-check-label" for="tech-{{$technology->id}}">
+                        {{$technology->name}}
+                    </label>
+                    <input class="form-check-input"
+                    @if ($project->technologies->contains($technology->id))
+                    checked
+                    @endif
+                    type="checkbox" name="technologies[]" value="{{$technology->id}}" id="tech-{{$technology->id}}">
+                </span>
+            @endforeach
         </div>
         <div class="mb-3">
             <label for="completed" class="form-label">Stato del progetto</label>

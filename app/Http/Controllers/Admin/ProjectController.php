@@ -48,7 +48,7 @@ class ProjectController extends Controller
         $data = $request->all();
         $project = Project::Create($data);
 
-        $project->technologies()->sync($data['technologies']);
+        $project->technologies()->sync($data['technologies'] ?? []);
 
         return redirect()->route('admin.projects.show', ['project' => $project->id]);
     }
@@ -66,8 +66,10 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+        $technologies = Technology::all();
+
         $types = Type::all();
-        return view('admin.projects.edit', compact('project', 'types'));
+        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -79,14 +81,18 @@ class ProjectController extends Controller
         $request->validate([
             'title'=>'required|min:3|max:64',
             'description'=>'required|min:3|max:1024',
-            'languages'=>'required|min:3|max:64',
+
             'completed'=>'required|integer|min:0|max:1',
             'starting_date'=> 'nullable|date',
             'level'=>'nullable|min:3|max:64',
-            'type_id'=>'nullable|exists:types,id'
+            'type_id'=>'nullable|exists:types,id',
+            'technologies'=>'nullable|array|exists:technologies,id',
+
         ]);
         $data = $request->all();
         $project->update($data);
+        $project->technologies()->sync($data['technologies'] ?? []);
+
         return redirect()->route('admin.projects.show', ['project' => $project->id]);
     }
 
