@@ -12,9 +12,9 @@
     </head>
     <body>
         <header>
-            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <nav class="navbar navbar-expand-lg">
                 <div class="container">
-                    <a class="navbar-brand" href="/">Template</a>
+                    <a class="navbar-brand" href="/">Project Manager</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -24,10 +24,11 @@
                                 <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Link 2</a>
+                                <a class="nav-link" href="{{ route('admin.projects.index')}}">My Projects</a>
                             </li>
+
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Link 3</a>
+                                <a class="nav-link" href="{{ route('admin.types.index')}}">Types</a>
                             </li>
                         </ul>
                         <form method="POST" action="{{ route('logout') }}">
