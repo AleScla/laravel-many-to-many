@@ -26,7 +26,13 @@
                     @endforeach
                 </h5>
                 <p class="card-text"><strong>Descrizione progetto:</strong> <br>
-                    {{$project->description}}</p>
+                    {{$project->description}}
+                </p>
+                @if ($project->cover != null)
+                    <div class="card-text">
+                        <img src="{{asset('storage/'.$project->cover)}}" alt="{{$project->title}}">
+                    </div>
+                @endif
                 <p class="card-text">
                     Stato:
                     @if ($project->completed)

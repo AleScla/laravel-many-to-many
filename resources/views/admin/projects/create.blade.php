@@ -16,7 +16,7 @@
         </ul>
     </div>
     @endif
-    <form action="{{route('admin.projects.store')}}" method="POST">
+    <form action="{{route('admin.projects.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
             <label for="title" class="form-label">Titolo *</label>
@@ -39,6 +39,13 @@
              maxlength="1024"
              placeholder="Inserisci la descrizione"
              rows="3">{{old('description')}}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="cover" class="form-label">Inserisci un'immagine</label>
+            <input type="file" class="form-control"
+             id="cover"
+             name="cover"
+             placeholder="Inserisci un'immagine">
         </div>
         <div class="mb-3">
             <p>

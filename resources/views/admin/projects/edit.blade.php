@@ -17,7 +17,7 @@
     @endif
 
 
-    <form action="{{route('admin.projects.update', ['project' => $project->id])}}" method="POST">
+    <form action="{{route('admin.projects.update', ['project' => $project->id])}}" method="POST" enctype="multipart/form-data">
         @method('PUT')
         @csrf
         <div class="mb-3">
@@ -43,6 +43,27 @@
              placeholder="Inserisci la descrizione"
              rows="3">{{$project->description}}</textarea>
         </div>
+        <div class="mb-3">
+            <label for="cover" class="form-label">Inserisci un'immagine</label>
+            <input type="file" class="form-control"
+             id="cover"
+             name="cover"
+             placeholder="Inserisci un'immagine">
+        </div>
+
+        @if ($project->cover != null)
+        <div>
+            <p>Attuale copertina:</p>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="coverRemover" value="1" id="coverRemover">
+                <label class="form-check-label" for="coverRemover">
+                    Spunta qui per rimuovere questa copertina
+                </label>
+              </div>
+            <img src="{{asset('storage/'.$project->cover)}}" alt="{{$project->title}}">
+        </div>
+        @endif
+
         <div class="mb-3">
             <p>
                 Tecnologie:

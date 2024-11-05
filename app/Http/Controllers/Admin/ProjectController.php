@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Technology;
 
+use Illuminate\Support\Facades\Storage;
+
 class ProjectController extends Controller
 {
     /**
@@ -36,16 +38,22 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
 
-        $request->validate([
+        $data = $request->validate([
             'title'=>'required|min:3|max:64',
             'description'=>'required|min:3|max:1024',
+            'cover'=>'nullable|image|max:2048',
             'completed'=>'required|integer|min:0|max:1',
             'starting_date'=> 'nullable|date',
             'level'=>'nullable|min:3|max:64',
             'type_id'=>'nullable|exists:types,id',
             'technologies'=>'nullable|array|exists:technologies,id',
         ]);
-        $data = $request->all();
+
+
+
+        $imgPath = Storage::put('uploads', $data['cover']);
+        $data['cover'] = $imgPath;
+
         $project = Project::Create($data);
 
         $project->technologies()->sync($data['technologies'] ?? []);
@@ -78,18 +86,32 @@ class ProjectController extends Controller
     public function update(Request $request, Project $project)
     {
 
-        $request->validate([
+        $data = $request->validate([
             'title'=>'required|min:3|max:64',
             'description'=>'required|min:3|max:1024',
-
+            'cover'=>'nullable|image|max:2048',
             'completed'=>'required|integer|min:0|max:1',
             'starting_date'=> 'nullable|date',
             'level'=>'nullable|min:3|max:64',
             'type_id'=>'nullable|exists:types,id',
             'technologies'=>'nullable|array|exists:technologies,id',
-
+            'coverRemover' => 'nullable'
         ]);
-        $data = $request->all();
+        
+
+        if(isset($data['cover'])){
+            if($project->cover){
+                Storage::delete($project->cover);
+                $project->cover = null;
+            }
+            $imgPath = Storage::put('uploads', $data['cover']);
+            $data['cover'] = $imgPath;
+        }
+        else if(isset($data['coverRemover'])&& $project->cover){
+            Storage::delete($project->cover);
+            $project->cover = null;
+        }
+
         $project->update($data);
         $project->technologies()->sync($data['technologies'] ?? []);
 
